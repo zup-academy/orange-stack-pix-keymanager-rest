@@ -11,6 +11,7 @@ import io.micronaut.grpc.annotation.GrpcChannel
 import io.micronaut.http.HttpResponse
 import io.micronaut.http.annotation.Body
 import io.micronaut.http.annotation.Controller
+import io.micronaut.http.annotation.Delete
 import io.micronaut.http.annotation.Post
 import io.micronaut.validation.Validated
 import org.slf4j.LoggerFactory
@@ -22,9 +23,9 @@ import javax.validation.constraints.Size
 
 @Validated
 @Controller("/api/v1/clientes/{clienteId}")
-class CadastraChavePixController(val grpcClient : KeymanagerGrpcServiceBlockingStub) {
+class ChavePixController(val grpcClient : KeymanagerGrpcServiceBlockingStub) {
 
-    private val LOGGER = LoggerFactory.getLogger(CadastraChavePixController::class.java)
+    private val LOGGER = LoggerFactory.getLogger(ChavePixController::class.java)
 
     @Post("/pix")
     fun create(clienteId: UUID,
@@ -48,6 +49,25 @@ class CadastraChavePixController(val grpcClient : KeymanagerGrpcServiceBlockingS
         }
     }
 
+    @Delete("/pix/{pixId}")
+    fun delete(clienteId: UUID,
+               pixId: UUID) : HttpResponse<Any> {
+        try {
+            val removeChavePixResponse = grpcClient.remove(RemoveChavePixRequest.newBuilder()
+                    .setPixId(pixId.toString())
+                    .setClienteId(clienteId.toString())
+                    .build())
+
+            return HttpResponse.ok()
+
+        } catch (e : StatusRuntimeException) {
+            return when (e.status.code) {
+                Status.Code.INVALID_ARGUMENT -> HttpResponse.badRequest(e.message)
+
+                else -> HttpResponse.serverError()
+            }
+        }
+    }
 }
 
 @Introspected
