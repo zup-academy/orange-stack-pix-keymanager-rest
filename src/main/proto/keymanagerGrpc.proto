@@ -8,8 +8,14 @@ package br.com.zup.edu.grpc;
 service KeymanagerGrpcService {
 
   rpc registra(RegistraChavePixRequest) returns (RegistraChavePixResponse) {}
+
+  rpc remove(RemoveChavePixRequest) returns (RemoveChavePixResponse) {}
+
 }
 
+/**
+ * Se nenhum tipo for especificado, assume-se o tipo de chave CPF.
+ */
 enum TipoDeChave {
   CPF       = 0;
   CELULAR   = 1;
@@ -17,6 +23,9 @@ enum TipoDeChave {
   ALEATORIA = 3;
 }
 
+/**
+ * Se nenhum tipo for especificado, assume-se o tipo de conta CONTA_CORRENTE.
+ */
 enum TipoDeConta {
   CONTA_CORRENTE = 0;
   CONTA_POUPANCA = 1;
@@ -30,6 +39,16 @@ message RegistraChavePixRequest {
 }
 
 message RegistraChavePixResponse {
+  string clienteId = 1;
+  string pixId     = 2;
+}
+
+message RemoveChavePixRequest {
+  string clienteId = 1;
+  string pixId     = 2;
+}
+
+message RemoveChavePixResponse {
   string clienteId = 1;
   string pixId     = 2;
 }

@@ -36,6 +36,8 @@ dependencies {
     runtimeOnly("com.fasterxml.jackson.module:jackson-module-kotlin")
 
     implementation("io.micronaut.grpc:micronaut-grpc-client-runtime")
+
+    annotationProcessor("io.micronaut:micronaut-inject-java")
 }
 
 
