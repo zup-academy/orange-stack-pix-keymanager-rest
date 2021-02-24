@@ -1,3 +1,13 @@
 micronaut:
   application:
     name: keymanagetrRest
+  server:
+    port: ${SERVER_PORT:8081}
+
+grpc:
+  client:
+    plaintext: true
+    max-retry-attempts: 10
+  channels:
+    keyManager:
+      address: '${KEY_MANAGER_HOST:0.0.0.0}:${KEY_MANAGER_PORT:50051}'
