@@ -38,6 +38,8 @@ dependencies {
     implementation("io.micronaut.grpc:micronaut-grpc-client-runtime")
 
     annotationProcessor("io.micronaut:micronaut-inject-java")
+
+    implementation("br.com.caelum.stella:caelum-stella-core:2.1.2")
 }
 
 

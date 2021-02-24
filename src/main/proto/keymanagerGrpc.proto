@@ -4,33 +4,49 @@ option java_multiple_files = true;
 option java_outer_classname = "KeymanagerGrpc";
 
 package br.com.zup.edu.grpc;
+import "google/protobuf/timestamp.proto";
 
-service KeymanagerGrpcService {
+service KeymanagerRegistraGrpcService {
 
   rpc registra(RegistraChavePixRequest) returns (RegistraChavePixResponse) {}
+
+}
+
+service KeymanagerRemoveGrpcService {
 
   rpc remove(RemoveChavePixRequest) returns (RemoveChavePixResponse) {}
 
 }
 
-/**
- * Se nenhum tipo for especificado, assume-se o tipo de chave CPF.
- */
+service KeymanagerCarregaGrpcService {
+
+  rpc carrega(CarregaChavePixRequest) returns (CarregaChavePixResponse) {}
+
+}
+
+service KeymanagerListaGrpcService {
+
+  rpc lista(ListaChavesPixRequest) returns (ListaChavesPixResponse) {}
+
+}
+
 enum TipoDeChave {
-  CPF       = 0;
-  CELULAR   = 1;
-  EMAIL     = 2;
-  ALEATORIA = 3;
+  UNKNOWN_TIPO_CHAVE = 0;
+  CPF                = 1;
+  CELULAR            = 2;
+  EMAIL              = 3;
+  ALEATORIA          = 4;
+}
+
+enum TipoDeConta {
+  UNKNOWN_TIPO_CONTA = 0;
+  CONTA_CORRENTE     = 1;
+  CONTA_POUPANCA     = 2;
 }
 
 /**
- * Se nenhum tipo for especificado, assume-se o tipo de conta CONTA_CORRENTE.
+ * Registra chave
  */
-enum TipoDeConta {
-  CONTA_CORRENTE = 0;
-  CONTA_POUPANCA = 1;
-}
-
 message RegistraChavePixRequest {
   string clienteId        = 1;
   TipoDeChave tipoDeChave = 2;
@@ -43,6 +59,9 @@ message RegistraChavePixResponse {
   string pixId     = 2;
 }
 
+/**
+ * Remove chave
+ */
 message RemoveChavePixRequest {
   string clienteId = 1;
   string pixId     = 2;
@@ -51,4 +70,64 @@ message RemoveChavePixRequest {
 message RemoveChavePixResponse {
   string clienteId = 1;
   string pixId     = 2;
+}
+
+/**
+ * Carrega chave
+ */
+message CarregaChavePixRequest {
+  message FiltroPorPixId {
+    string clienteId = 1;
+    string pixId     = 2;
+  }
+
+  oneof filtro {
+    FiltroPorPixId pixId  = 1;
+    string chave          = 2;
+  }
+}
+
+message CarregaChavePixResponse {
+
+  message ChavePix {
+
+    message ContaInfo {
+      TipoDeConta tipo     = 1;
+      string instituicao   = 2; /** ITAU UNIBANCO */
+      string nomeDoTitular = 3;
+      string cpfDoTitular  = 4;
+      string agencia       = 5;
+      string numeroDaConta = 6;
+    }
+
+    TipoDeChave tipo        = 1;
+    string chave            = 2;
+    ContaInfo conta         = 3;
+    google.protobuf.Timestamp criadaEm = 4;
+  }
+
+  string clienteId = 1;
+  string pixId     = 2;
+  ChavePix chave   = 3;
+}
+
+/**
+ * Lista chaves
+ */
+message ListaChavesPixRequest {
+  string clienteId = 1;
+}
+
+message ListaChavesPixResponse {
+
+  message ChavePix {
+    string pixId            = 1;
+    TipoDeChave tipo        = 2;
+    string chave            = 3;
+    TipoDeConta tipoDeConta = 4;
+    google.protobuf.Timestamp criadaEm = 5;
+  }
+
+  string clienteId         = 1;
+  repeated ChavePix chaves = 2;
 }
