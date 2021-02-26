@@ -11,3 +11,13 @@ grpc:
   channels:
     keyManager:
       address: '${KEY_MANAGER_HOST:localhost}:${KEY_MANAGER_PORT:50051}'
+
+##
+# Jackson configuration
+# https://github.com/micronaut-projects/micronaut-core/issues/240
+# https://geowarin.com/correctly-handle-jsr-310-java-8-dates-with-jackson/
+# https://www.baeldung.com/jackson-serialize-dates
+##
+jackson:
+  serialization:
+    writeDatesAsTimestamps: false
