@@ -20,6 +20,7 @@ class CarregaChavePixController(val carregaChavePixClient: KeymanagerCarregaGrpc
     fun carrega(clienteId: UUID,
                 pixId: UUID) : HttpResponse<Any> {
 
+        LOGGER.info("[$clienteId] carrega chave pix por id: $pixId")
         val chaveResponse = carregaChavePixClient.carrega(CarregaChavePixRequest.newBuilder()
                                                             .setPixId(CarregaChavePixRequest.FiltroPorPixId.newBuilder()
                                                                     .setClienteId(clienteId.toString())
@@ -27,16 +28,13 @@ class CarregaChavePixController(val carregaChavePixClient: KeymanagerCarregaGrpc
                                                                     .build()).
                                                             build())
 
-
         return HttpResponse.ok(DetalheChavePixResponse(chaveResponse))
     }
-
 
     @Get("/pix/")
     fun lista(clienteId: UUID) : HttpResponse<Any> {
 
-        LOGGER.info("[$clienteId] listando chaves pix com")
-
+        LOGGER.info("[$clienteId] listando chaves pix")
         val pix = listaChavesPixClient.lista(ListaChavesPixRequest.newBuilder()
                                                         .setClienteId(clienteId.toString())
                                                         .build())

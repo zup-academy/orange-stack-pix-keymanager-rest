@@ -9,14 +9,11 @@ import java.time.ZoneOffset
 @Introspected
 class ChavePixResponse(chavePix: ListaChavesPixResponse.ChavePix) {
 
-    init {
-
-        val id = chavePix.pixId
-        val chave = chavePix.chave
-        val tipo = chavePix.tipo
-        val tipoDeConta = chavePix.tipoDeConta
-        val criadaEm = chavePix.criadaEm.let {
-            LocalDateTime.ofInstant(Instant.ofEpochSecond(it.seconds, it.nanos.toLong()), ZoneOffset.UTC)
-        }
+    val id = chavePix.pixId
+    val chave = chavePix.chave
+    val tipo = chavePix.tipo
+    val tipoDeConta = chavePix.tipoDeConta
+    val criadaEm = chavePix.criadaEm.let {
+        LocalDateTime.ofInstant(Instant.ofEpochSecond(it.seconds, it.nanos.toLong()), ZoneOffset.UTC)
     }
 }
