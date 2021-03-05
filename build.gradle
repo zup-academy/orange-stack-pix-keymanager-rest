@@ -45,6 +45,8 @@ dependencies {
 
     kapt("io.micronaut.openapi:micronaut-openapi")
     implementation("io.swagger.core.v3:swagger-annotations")
+
+    implementation("io.micronaut:micronaut-management")
 }
 
 
