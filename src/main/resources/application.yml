@@ -3,6 +3,11 @@ micronaut:
     name: keymanagerRest
   server:
     port: ${SERVER_PORT:8080}
+  router:
+    static-resources:
+      swagger:
+        paths: classpath:META-INF/swagger
+        mapping: /swagger/**
 
 grpc:
   client:

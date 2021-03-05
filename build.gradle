@@ -42,6 +42,9 @@ dependencies {
     annotationProcessor("io.micronaut:micronaut-inject-java")
 
     implementation("br.com.caelum.stella:caelum-stella-core:2.1.2")
+
+    kapt("io.micronaut.openapi:micronaut-openapi")
+    implementation("io.swagger.core.v3:swagger-annotations")
 }
 
 
@@ -87,5 +90,12 @@ sourceSets {
             srcDirs 'build/generated/source/proto/main/grpc'
             srcDirs 'build/generated/source/proto/main/java'
         }
+    }
+}
+
+
+kapt {
+    arguments {
+        arg("micronaut.openapi.views.spec", "swagger-ui.enabled=true,swagger-ui.theme=flattop")
     }
 }
