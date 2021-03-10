@@ -45,6 +45,9 @@ spec:
           #  httpGet:
           #    path: /
           #    port: http
+          envFrom:
+            - configMapRef:
+                name: orange-stack-pix-keymanager-rest-configmap
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
