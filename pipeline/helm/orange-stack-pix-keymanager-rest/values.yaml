@@ -80,4 +80,4 @@ affinity: {}
 
 application:
   KEY_MANAGER_HOST: orange-stack-pix-keymanager-grpc.default.svc.cluster.local
-  KEY_MANAGER_PORT: 50051
+  KEY_MANAGER_PORT: 80
