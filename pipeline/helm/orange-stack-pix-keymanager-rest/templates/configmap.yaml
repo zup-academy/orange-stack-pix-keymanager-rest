@@ -1,0 +1,8 @@
+
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: orange-stack-pix-keymanager-rest-configmap
+data:
+  KEY_MANAGER_HOST: "{{ .Values.application.KEY_MANAGER_HOST }}"
+  KEY_MANAGER_PORT: "{{ .Values.application.KEY_MANAGER_PORT }}"
