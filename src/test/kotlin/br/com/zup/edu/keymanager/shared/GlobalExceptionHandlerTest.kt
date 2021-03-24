@@ -30,10 +30,10 @@ internal class GlobalExceptionHandlerTest {
     internal fun `deve retornar 422 quando statusException for already existis`() {
 
         val mensagem = "chave ja existente"
-        val notFoundException = StatusRuntimeException(Status.ALREADY_EXISTS
+        val alreadyExistsException = StatusRuntimeException(Status.ALREADY_EXISTS
                                                              .withDescription(mensagem))
 
-        val resposta = GlobalExceptionHandler().handle(requestGenerica, notFoundException)
+        val resposta = GlobalExceptionHandler().handle(requestGenerica, alreadyExistsException)
 
         assertEquals(HttpStatus.UNPROCESSABLE_ENTITY, resposta.status)
         assertNotNull(resposta.body())
@@ -44,9 +44,9 @@ internal class GlobalExceptionHandlerTest {
     internal fun `deve retornar 400 quando statusException for invalid argument`() {
 
         val mensagem = "Dados da requisição estão inválidos"
-        val notFoundException = StatusRuntimeException(Status.INVALID_ARGUMENT)
+        val invalidArgumentException = StatusRuntimeException(Status.INVALID_ARGUMENT)
 
-        val resposta = GlobalExceptionHandler().handle(requestGenerica, notFoundException)
+        val resposta = GlobalExceptionHandler().handle(requestGenerica, invalidArgumentException)
 
         assertEquals(HttpStatus.BAD_REQUEST, resposta.status)
         assertNotNull(resposta.body())
@@ -56,9 +56,9 @@ internal class GlobalExceptionHandlerTest {
     @Test
     internal fun `deve retornar 500 quando qualquer outro erro for lancado`() {
 
-        val notFoundException = StatusRuntimeException(Status.INTERNAL)
+        val internalException = StatusRuntimeException(Status.INTERNAL)
 
-        val resposta = GlobalExceptionHandler().handle(requestGenerica, notFoundException)
+        val resposta = GlobalExceptionHandler().handle(requestGenerica, internalException)
 
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, resposta.status)
         assertNotNull(resposta.body())
