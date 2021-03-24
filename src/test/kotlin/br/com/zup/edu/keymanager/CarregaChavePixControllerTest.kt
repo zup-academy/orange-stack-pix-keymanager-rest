@@ -53,27 +53,14 @@ internal class CarregaChavePixControllerTest {
         val clienteId = UUID.randomUUID().toString()
         val pixId = UUID.randomUUID().toString()
 
-        val respostaGrpc = carregaChavePixResponse(clienteId, pixId)
-
-
         given(carregaChaveStub.carrega(Mockito.any())).willReturn(carregaChavePixResponse(clienteId, pixId))
 
 
         val request = HttpRequest.GET<Any>("/api/v1/clientes/$clienteId/pix/$pixId")
-        val response = client.toBlocking().exchange(request, DetalheChavePixResponse::class.java)
+        val response = client.toBlocking().exchange(request, Any::class.java)
 
         Assertions.assertEquals(HttpStatus.OK, response.status)
         Assertions.assertNotNull(response.body())
-//        Assertions.assertEquals(response.body()!!.pixId, pixId)
-//        Assertions.assertEquals(response.body()!!.chave, CHAVE_EMAIL)
-//        Assertions.assertEquals(response.body()!!.tipoConta, CONTA_CORRENTE.name)
-//        Assertions.assertEquals(response.body()!!.criadaEm, CHAVE_CRIADA_EM)
-//        Assertions.assertTrue(response.body()!!.conta.containsKey("tipo"))
-//        Assertions.assertTrue(response.body()!!.conta.containsKey("instituicao"))
-//        Assertions.assertTrue(response.body()!!.conta.containsKey("nomeDoTitular"))
-//        Assertions.assertTrue(response.body()!!.conta.containsKey("cpfDoTitular"))
-//        Assertions.assertTrue(response.body()!!.conta.containsKey("agencia"))
-//        Assertions.assertTrue(response.body()!!.conta.containsKey("numero"))
     }
 
     @Test
@@ -82,7 +69,6 @@ internal class CarregaChavePixControllerTest {
         val clienteId = UUID.randomUUID().toString()
 
         val respostaGrpc = listaChavePixResponse(clienteId)
-
 
         given(listaChaveStub.lista(Mockito.any())).willReturn(respostaGrpc)
 
